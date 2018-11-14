@@ -76,7 +76,7 @@ public class HistoryContoller {
 		token = tokenResponse.getBody();
 	}
 
-        if (null != token) {
+	if (null != token) {
 
 		RestTemplate histTemplate = new RestTemplate();
 		HttpHeaders histHeaders = new HttpHeaders();
@@ -87,8 +87,8 @@ public class HistoryContoller {
 		HttpEntity<KapuaMessage> historyResponse = histTemplate.exchange(HISTORYURL, HttpMethod.GET,
 				histRequest, KapuaMessage.class);
 
-            if (null != historyResponse && null != historyResponse.getBody()) {
-                DecimalFormat df = new DecimalFormat("#.##");
+		if (null != historyResponse && null != historyResponse.getBody()) {
+			DecimalFormat df = new DecimalFormat("#.##");
                 message = historyResponse.getBody();
                 for (Items item : message.getItems()) {
                     ChartPoint point = new ChartPoint();

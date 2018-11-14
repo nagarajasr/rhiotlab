@@ -27,7 +27,7 @@ items:
       contextDir: lab-4-web
       git:
         ref: student-labs
-        uri: 'https://github.com/vincepower/rht-iot-demo.git'
+        uri: 'https://github.com/nagaraja_sr/rhiotlab.git'
       type: Git
     strategy:
       sourceStrategy:
