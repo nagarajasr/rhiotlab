@@ -62,10 +62,30 @@ public class HistoryContoller {
         List <MediaType> accepts = new ArrayList<>();
         accepts.add(MediaType.APPLICATION_JSON);
 
-       *** Auth Code****
+	HttpHeaders authHeaders = new HttpHeaders();
+	authHeaders.setContentType(MediaType.APPLICATION_JSON);
+	authHeaders.setAccept(accepts);
+	Auth auth = new Auth();
+	auth.setPassword( "openshift");
+	auth.setUsername( "user7");
+	HttpEntity<Auth> authRequest = new HttpEntity<>(auth, authHeaders);
+	HttpEntity<AuthToken> tokenResponse = authTemplate.postForEntity(AUTHURL, authRequest,
+			AuthToken.class);
+	AuthToken token = null;
+	if (null != tokenResponse && null != tokenResponse.getBody()) {
+		token = tokenResponse.getBody();
+	}
 
         if (null != token) {
 
+		RestTemplate histTemplate = new RestTemplate();
+		HttpHeaders histHeaders = new HttpHeaders();
+		histHeaders.setContentType(MediaType.APPLICATION_JSON);
+		histHeaders.setAccept(accepts);
+		histHeaders.set("Authorization", "Bearer "+ token.getTokenId());
+		HttpEntity<Void> histRequest = new HttpEntity<>(null, histHeaders);
+		HttpEntity<KapuaMessage> historyResponse = histTemplate.exchange(HISTORYURL, HttpMethod.GET,
+				histRequest, KapuaMessage.class);
 
             if (null != historyResponse && null != historyResponse.getBody()) {
                 DecimalFormat df = new DecimalFormat("#.##");
